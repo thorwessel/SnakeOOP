@@ -1,3 +1,5 @@
+package graphics
+
 class Graphics {
     //TODO Render "board"
     //TODO Render "Snake"

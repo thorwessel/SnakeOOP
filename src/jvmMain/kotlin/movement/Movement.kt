@@ -1,3 +1,5 @@
+package movement
+
 class Movement {
     //TODO Listen for keypresses
     //TODO Que movement for the Snake

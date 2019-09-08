@@ -1,3 +1,5 @@
+package snake
+
 class Snake {
     //Holds the "state" of the snake.
     //TODO state, list of objects containing position.
