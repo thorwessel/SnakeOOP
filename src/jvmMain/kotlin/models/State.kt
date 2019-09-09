@@ -1,8 +1,8 @@
 package models
 
 data class State (
-    var xPosition: Boolean,
-    var yPosition: Boolean,
+    var xPosition: Int,
+    var yPosition: Int,
     var nextDirections: Array<Direction>
 ) {
     //Overriding equals, will not use the function though.
