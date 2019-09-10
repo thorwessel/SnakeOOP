@@ -30,6 +30,12 @@ class Snake {
             state.nextDirections[0] == down -> nextState.yPosition += 1
         }
 
+        if (nextState.xPosition < 0) {
+            nextState.xPosition = 512
+        } else if (nextState.yPosition < 0) {
+            nextState.yPosition = 512
+        }
+
         if (state.nextDirections.size > 1) {
             nextState.nextDirections.removeAt(0)
         }
