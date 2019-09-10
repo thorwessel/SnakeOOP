@@ -17,19 +17,30 @@ class Snake {
         return stateOfSnake[0]
     }
 
-    private fun nextState(state: State): State {
-        var nextState = state
-        if (state.nextDirections[0] == left) {
-            nextState.xPosition -= 1
-        } else if (state.nextDirections[0] == up) {
-            nextState.xPosition -= 1
-        } else if (state.nextDirections[0] == right) {
-            nextState.xPosition += 1
-        } else if (state.nextDirections[0] == down) {
-            nextState.yPosition += 1
+    fun AddDirection(inputDirection: Direction) {
+        stateOfSnake[0].nextDirections.add(inputDirection)
+    }
+
+    private fun nextStateDirection(state: State): State {
+        val nextState = state
+        when {
+            state.nextDirections[0] == left -> nextState.xPosition -= 1
+            state.nextDirections[0] == up -> nextState.xPosition -= 1
+            state.nextDirections[0] == right -> nextState.xPosition += 1
+            state.nextDirections[0] == down -> nextState.yPosition += 1
+        }
+
+        if (state.nextDirections.size > 1) {
+            nextState.nextDirections.removeAt(0)
         }
 
         return nextState
+    }
+
+    private fun checkLength(currentState: State) {
+        if (stateOfSnake.size > currentState.length) {
+            stateOfSnake.removeAt(stateOfSnake.size)
+        }
     }
 
     //TODO state, list of objects containing position.
