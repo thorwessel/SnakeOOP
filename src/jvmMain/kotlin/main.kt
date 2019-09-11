@@ -32,5 +32,28 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
         text("Hello World", textSize = 12.0) {
             position(200, 256)
         }
+
+        while (true) {
+            val nextMove = snake.nextMove()
+
+            delay(100.seconds)
+        }
+        //TODO make loop for the entire game here
+        //TODO make a small timer to update everything once every x seconds
+    }
+
+    var line = 0
+    fun textLine(text: String) = text(text).position(0, line++ * 16).apply { this.filtering = false }
+    fun nowUnix() = DateTime.now().unixMillisLong
+
+    textLine("Events :")
+    val keysEvText = textLine("KeysEv")
+    val keysDownText = textLine("Keys:Down")
+    val keysUpText = textLine("Keys:Up")
+
+
+    keys {
+        onKeyDown { keysDownText.text = "Key: ${it.key}" }
+        onKeyUp { keysUpText.text = "Key: ${it.key}" }
     }
 }

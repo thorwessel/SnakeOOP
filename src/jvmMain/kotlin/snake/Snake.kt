@@ -14,6 +14,9 @@ class Snake {
     ))
 
     fun nextMove(snakeStates: MutableList<State> = stateOfSnake): State {
+        val nextStateDirection = nextStateDirection(snakeStates[0])
+        stateOfSnake.add(0, nextStateDirection)
+        checkLength(nextStateDirection)
         return stateOfSnake[0]
     }
 
