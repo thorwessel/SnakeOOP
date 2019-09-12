@@ -6,6 +6,7 @@ import com.soywiz.korge.*
 import com.soywiz.korge.input.onDown
 import com.soywiz.korge.input.onKeyDown
 import com.soywiz.korge.input.onKeyUp
+import com.soywiz.korge.scene.sceneContainer
 import com.soywiz.korge.time.delay
 import com.soywiz.korge.tween.*
 import com.soywiz.korge.view.*
@@ -30,31 +31,31 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
     val movement = Movement()
     val snake = Snake()
 
-    val snakeStates = snake.nextMove()
+    var snakeStates = snake.getInitialState()
 
     launchImmediately {
         //TODO make loop for the entire game here
         //TODO make a small timer to update everything once every x seconds
         while (true) {
-            //val nextMove = snake.nextMove()
+            snakeStates = snake.nextMove(snakeStates.toMutableList())
 
-            delay(100.seconds)
-        }
-    }
+            val newView = container()
 
-    graphics {
-        snakeStates.map {
-            fill(Colors.DARKGREEN) {
-                println("x: ${it.xPosition} y: ${it.yPosition} length: ${it.length}")
-                rect(it.xPosition * 32, it.yPosition * 32, 32, 32)
+            newView.graphics {
+                snakeStates.map {
+                    fill(Colors.DARKGREEN) {
+                        rect(it.xPosition * 32, it.yPosition * 32, 32, 32)
+                    }
+                }
             }
-        }
+            delay(0.5.seconds)
 
-        /*fill(Colors.DARKVIOLET) {
-            rect(256, 256, 32, 32)
-        } */
+            this.removeChild(newView)
+
+        }
     }
 
+    // key information to help troubleshooting
     var line = 0
     fun textLine(text: String) = text(text).position(0, line++ * 16).apply { this.filtering = false }
 

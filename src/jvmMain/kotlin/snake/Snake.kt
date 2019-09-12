@@ -10,18 +10,18 @@ class Snake {
         State(
         xPosition = 8,
         yPosition = 8,
-        length = 1,
+        length = 3,
         nextDirections = mutableListOf(left)
     ), State(
         xPosition = 8,
         yPosition = 9,
         length = 2,
-        nextDirections = mutableListOf(left)
+        nextDirections = mutableListOf(up)
     ), State(
         xPosition = 8,
         yPosition = 10,
         length = 3,
-        nextDirections = mutableListOf(left)
+        nextDirections = mutableListOf(up)
     ), State(
         xPosition = 8,
         yPosition = 11,
@@ -29,11 +29,15 @@ class Snake {
         nextDirections = mutableListOf(left)
     ))
 
+    fun getInitialState(): List<State> {
+        return stateOfSnake
+    }
+
     fun nextMove(snakeStates: MutableList<State> = stateOfSnake): List<State> {
         val currentState = snakeStates[0]
         val nextStateDirection = nextStateDirection(currentState)
-
-        //checkLength(nextStateDirection)
+        checkLength(snakeStates[0])
+        stateOfSnake.asReversed().add(nextStateDirection)
         return mutableListOf(nextStateDirection).plus(stateOfSnake)
     }
 
@@ -51,9 +55,9 @@ class Snake {
         }
 
         if (nextState.xPosition < 0) {
-            nextState.xPosition = 32
+            nextState.xPosition = 15
         } else if (nextState.yPosition < 0) {
-            nextState.yPosition = 32
+            nextState.yPosition = 15
         }
 
         if (state.nextDirections.size > 1) {
@@ -63,11 +67,11 @@ class Snake {
         return nextState
     }
 
-    /* private fun checkLength(currentState: State) {
+     private fun checkLength(currentState: State) {
         if (stateOfSnake.size > currentState.length) {
-            stateOfSnake.removeAt(stateOfSnake.size)
+            stateOfSnake.removeAt(stateOfSnake.size - 1)
         }
-    } */
+    }
 
     //TODO state, list of objects containing position.
     //TODO Method: Add new state, take input from user, whether the new move will be food/crash into self.
