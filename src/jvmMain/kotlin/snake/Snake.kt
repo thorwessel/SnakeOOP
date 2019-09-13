@@ -34,7 +34,7 @@ class Snake {
     }
 
     fun addDirection(inputDirection: Direction) {
-        if (validMove(inputDirection, stateOfSnake[0].nextDirections[stateOfSnake[0].nextDirections.size])) {
+        if (validMove(inputDirection, stateOfSnake[0].nextDirections[stateOfSnake[0].nextDirections.size - 1])) {
             stateOfSnake[0].nextDirections.add(inputDirection)
         }
     }
@@ -53,6 +53,7 @@ class Snake {
             direction == left   && currentStateDirection == right   -> false
             direction == down   && currentStateDirection == up      -> false
             direction == right  && currentStateDirection == left    -> false
+            direction ==           currentStateDirection            -> false
             else -> true
         }
     }
@@ -60,10 +61,10 @@ class Snake {
     private fun nextStateDirection(state: State): State {
         val nextState: State = state.copy()
         when {
-            state.nextDirections[0] == left -> nextState.xPosition -= 1
-            state.nextDirections[0] == up -> nextState.yPosition -= 1
-            state.nextDirections[0] == right -> nextState.xPosition += 1
-            state.nextDirections[0] == down -> nextState.yPosition += 1
+            state.nextDirections[0] == left     -> nextState.xPosition -= 1
+            state.nextDirections[0] == up       -> nextState.yPosition -= 1
+            state.nextDirections[0] == right    -> nextState.xPosition += 1
+            state.nextDirections[0] == down     -> nextState.yPosition += 1
         }
 
         if (nextState.xPosition < 0) {
@@ -78,11 +79,11 @@ class Snake {
         if (nextState.yPosition > 15) {
             nextState.yPosition = 0
         }
-
+        println("1nd: " + nextState.nextDirections)
         if (state.nextDirections.size > 1) {
             nextState.nextDirections.removeAt(0)
         }
-
+        println("2nd: " + nextState.nextDirections)
         return nextState
     }
 

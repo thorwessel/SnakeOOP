@@ -32,13 +32,12 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
     val movement = Movement()
     val snake = Snake()
 
-    var snakeStates = snake.getInitialState()
 
     launchImmediately {
         //TODO make loop for the entire game here
         //TODO make a small timer to update everything once every x seconds
         while (true) {
-            snakeStates = snake.nextMove(snakeStates.toMutableList())
+            val snakeStates = snake.nextMove()
 
             val newView = container()
 
@@ -50,8 +49,6 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
                 }
             }
             delay(0.5.seconds)
-
-            println(snakeStates[0].nextDirections)
 
             this.removeChild(newView)
 
