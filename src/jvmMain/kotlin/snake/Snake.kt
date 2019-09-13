@@ -9,29 +9,34 @@ class Snake {
     //Holds the "state" of the snake, for now has predetermined initial state.
     private var stateOfSnake: MutableList<State> = mutableListOf(
         State(
-        xPosition = 8,
-        yPosition = 8,
-        length = 3,
-        nextDirections = mutableListOf(left)
-    ), State(
-        xPosition = 8,
-        yPosition = 9,
-        length = 2,
-        nextDirections = mutableListOf(up)
-    ), State(
-        xPosition = 8,
-        yPosition = 10,
-        length = 3,
-        nextDirections = mutableListOf(up)
-    ), State(
-        xPosition = 8,
-        yPosition = 11,
-        length = 4,
-        nextDirections = mutableListOf(left)
-    ))
+            xPosition = 8,
+            yPosition = 8,
+            length = 1,
+            nextDirections = mutableListOf(left)),
 
-    fun getInitialState(): List<State> {
-        return stateOfSnake
+        State(
+            xPosition = 7,
+            yPosition = 8,
+            length = 1,
+            nextDirections = mutableListOf(left))
+        )
+
+    fun reset(): List<State> {
+        stateOfSnake = mutableListOf(
+            State(
+                xPosition = 8,
+                yPosition = 8,
+                length = 1,
+                nextDirections = mutableListOf(left)),
+
+            State(
+                xPosition = 7,
+                yPosition = 8,
+                length = 1,
+                nextDirections = mutableListOf(left))
+        )
+
+        return emptyList()
     }
 
     fun addDirection(inputDirection: Direction) {
@@ -47,11 +52,22 @@ class Snake {
         } else false
     }
 
+    fun checkCollision(): Boolean {
+        for (stateIterator in 1..stateOfSnake.size - 1) {
+            if (stateOfSnake[stateIterator].xPosition == stateOfSnake[0].xPosition &&
+                stateOfSnake[stateIterator].yPosition == stateOfSnake[0].yPosition) {
+                return true
+            }
+        }
+        return false
+    }
+
     fun nextMove(): List<State> {
         val currentState = stateOfSnake[0]
         val nextStateDirection = nextStateDirection(currentState)
 
         checkLength(nextStateDirection)
+
         stateOfSnake.asReversed().add(nextStateDirection)
         return mutableListOf(nextStateDirection).plus(stateOfSnake)
     }

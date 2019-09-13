@@ -39,8 +39,11 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
         //TODO make a small timer to update everything once every x seconds
         while (true) {
             val foodLocation = food.foodLocation
+            if (snake.checkCollision()) snake.reset()
+
             val snakeStates = snake.nextMove()
             if (snake.hitFood(foodLocation)) food.getNewFoodLocation()
+
 
 
             val newView = container()
