@@ -2,6 +2,7 @@ package snake
 
 import models.Direction
 import models.Direction.*
+import models.FoodLocation
 import models.State
 
 class Snake {
@@ -39,10 +40,18 @@ class Snake {
         }
     }
 
-    fun nextMove(snakeStates: MutableList<State> = stateOfSnake): List<State> {
-        val currentState = snakeStates[0]
+    fun hitFood(foodLocation: FoodLocation): Boolean {
+        return if (foodLocation.xPosition == stateOfSnake[0].xPosition && foodLocation.yPosition == stateOfSnake[0].yPosition ) {
+            addLength()
+            true
+        } else false
+    }
+
+    fun nextMove(): List<State> {
+        val currentState = stateOfSnake[0]
         val nextStateDirection = nextStateDirection(currentState)
-        checkLength(snakeStates[0])
+
+        checkLength(nextStateDirection)
         stateOfSnake.asReversed().add(nextStateDirection)
         return mutableListOf(nextStateDirection).plus(stateOfSnake)
     }
@@ -53,7 +62,8 @@ class Snake {
             direction == left   && currentStateDirection == right   -> false
             direction == down   && currentStateDirection == up      -> false
             direction == right  && currentStateDirection == left    -> false
-            direction ==           currentStateDirection            -> false
+
+            direction       ==     currentStateDirection            -> false
             else -> true
         }
     }
@@ -79,11 +89,11 @@ class Snake {
         if (nextState.yPosition > 15) {
             nextState.yPosition = 0
         }
-        println("1nd: " + nextState.nextDirections)
+
         if (state.nextDirections.size > 1) {
             nextState.nextDirections.removeAt(0)
         }
-        println("2nd: " + nextState.nextDirections)
+
         return nextState
     }
 
@@ -93,6 +103,9 @@ class Snake {
         }
     }
 
+    private fun addLength() {
+        stateOfSnake[0].length += 1
+    }
     //TODO state, list of objects containing position.
     //TODO Method: Add new state, take input from user, whether the new move will be food/crash into self.
 

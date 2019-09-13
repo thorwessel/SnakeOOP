@@ -28,6 +28,7 @@ import models.State
 
 suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"]) {
     val food = Food()
+    food.getNewFoodLocation()
     val graphics = Graphics()
     val movement = Movement()
     val snake = Snake()
@@ -37,7 +38,10 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
         //TODO make loop for the entire game here
         //TODO make a small timer to update everything once every x seconds
         while (true) {
+            val foodLocation = food.foodLocation
             val snakeStates = snake.nextMove()
+            if (snake.hitFood(foodLocation)) food.getNewFoodLocation()
+
 
             val newView = container()
 
@@ -47,8 +51,11 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
                         rect(it.xPosition * 32, it.yPosition * 32, 32, 32)
                     }
                 }
+                fill(Colors.MAROON) {
+                    rect(foodLocation.xPosition * 32, foodLocation.yPosition * 32, 32, 32)
+                }
             }
-            delay(0.5.seconds)
+            delay(0.4.seconds)
 
             this.removeChild(newView)
 
