@@ -34,7 +34,7 @@ class Snake {
     }
 
     fun addDirection(inputDirection: Direction) {
-        if (validMove(inputDirection, stateOfSnake[0].nextDirections[0])) {
+        if (validMove(inputDirection, stateOfSnake[0].nextDirections[stateOfSnake[0].nextDirections.size])) {
             stateOfSnake[0].nextDirections.add(inputDirection)
         }
     }
@@ -48,18 +48,12 @@ class Snake {
     }
 
     private fun validMove(direction: Direction, currentStateDirection: Direction): Boolean {
-        if (direction == up && currentStateDirection == down) {
-            return false
-        } else if (direction == left && currentStateDirection == right) {
-            return false
-        } else if (direction == down && currentStateDirection == up) {
-            return false
-        } else if (direction == right && currentStateDirection == left) {
-            return false
-        } else if (direction == up && currentStateDirection == down) {
-            return false
-        } else {
-            return true
+        return when {
+            direction == up     && currentStateDirection == down    -> false
+            direction == left   && currentStateDirection == right   -> false
+            direction == down   && currentStateDirection == up      -> false
+            direction == right  && currentStateDirection == left    -> false
+            else -> true
         }
     }
 
