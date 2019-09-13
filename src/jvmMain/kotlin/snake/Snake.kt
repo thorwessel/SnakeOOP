@@ -33,6 +33,12 @@ class Snake {
         return stateOfSnake
     }
 
+    fun addDirection(inputDirection: Direction) {
+        if (validMove(inputDirection, stateOfSnake[0].nextDirections[0])) {
+            stateOfSnake[0].nextDirections.add(inputDirection)
+        }
+    }
+
     fun nextMove(snakeStates: MutableList<State> = stateOfSnake): List<State> {
         val currentState = snakeStates[0]
         val nextStateDirection = nextStateDirection(currentState)
@@ -41,23 +47,42 @@ class Snake {
         return mutableListOf(nextStateDirection).plus(stateOfSnake)
     }
 
-    fun AddDirection(inputDirection: Direction) {
-        stateOfSnake[0].nextDirections.add(inputDirection)
+    private fun validMove(direction: Direction, currentStateDirection: Direction): Boolean {
+        if (direction == up && currentStateDirection == down) {
+            return false
+        } else if (direction == left && currentStateDirection == right) {
+            return false
+        } else if (direction == down && currentStateDirection == up) {
+            return false
+        } else if (direction == right && currentStateDirection == left) {
+            return false
+        } else if (direction == up && currentStateDirection == down) {
+            return false
+        } else {
+            return true
+        }
     }
 
     private fun nextStateDirection(state: State): State {
         val nextState: State = state.copy()
         when {
             state.nextDirections[0] == left -> nextState.xPosition -= 1
-            state.nextDirections[0] == up -> nextState.xPosition -= 1
+            state.nextDirections[0] == up -> nextState.yPosition -= 1
             state.nextDirections[0] == right -> nextState.xPosition += 1
             state.nextDirections[0] == down -> nextState.yPosition += 1
         }
 
         if (nextState.xPosition < 0) {
             nextState.xPosition = 15
-        } else if (nextState.yPosition < 0) {
+        }
+        if (nextState.yPosition < 0) {
             nextState.yPosition = 15
+        }
+        if (nextState.xPosition > 15) {
+            nextState.xPosition = 0
+        }
+        if (nextState.yPosition > 15) {
+            nextState.yPosition = 0
         }
 
         if (state.nextDirections.size > 1) {
