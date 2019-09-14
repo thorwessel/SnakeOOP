@@ -6,20 +6,8 @@ import models.FoodLocation
 import models.State
 
 class Snake {
-    //Holds the "state" of the snake, for now has predetermined initial state.
-    private var stateOfSnake: MutableList<State> = mutableListOf(
-        State(
-            xPosition = 8,
-            yPosition = 8,
-            length = 1,
-            nextDirections = mutableListOf(left)),
-
-        State(
-            xPosition = 7,
-            yPosition = 8,
-            length = 1,
-            nextDirections = mutableListOf(left))
-        )
+    //Holds the "state" of the snake
+    private var stateOfSnake: MutableList<State> = mutableListOf()
 
     fun reset(): List<State> {
         stateOfSnake = mutableListOf(
@@ -36,15 +24,16 @@ class Snake {
                 nextDirections = mutableListOf(left))
         )
 
-        return emptyList()
+        return stateOfSnake
     }
 
     fun addDirection(inputDirection: Direction) {
-        if (validMove(inputDirection, stateOfSnake[0].nextDirections[stateOfSnake[0].nextDirections.size - 1])) {
+        if (checkForValidMove(inputDirection, stateOfSnake[0].nextDirections[stateOfSnake[0].nextDirections.size - 1])) {
             stateOfSnake[0].nextDirections.add(inputDirection)
         }
     }
 
+    // Comment for Jens, side effects, how could I re-structure to avoid the "addLength()" call?
     fun hitFood(foodLocation: FoodLocation): Boolean {
         return if (foodLocation.xPosition == stateOfSnake[0].xPosition && foodLocation.yPosition == stateOfSnake[0].yPosition ) {
             addLength()
@@ -52,8 +41,8 @@ class Snake {
         } else false
     }
 
-    fun checkCollision(): Boolean {
-        for (stateIterator in 1..stateOfSnake.size - 1) {
+    fun checkForCollision(): Boolean {
+        for (stateIterator in 1 until stateOfSnake.size - 1) {
             if (stateOfSnake[stateIterator].xPosition == stateOfSnake[0].xPosition &&
                 stateOfSnake[stateIterator].yPosition == stateOfSnake[0].yPosition) {
                 return true
@@ -62,58 +51,63 @@ class Snake {
         return false
     }
 
-    fun nextMove(): List<State> {
+    fun nextStates(): List<State> {
         val currentState = stateOfSnake[0]
-        val nextStateDirection = nextStateDirection(currentState)
+        val nextState = nextStatePosition(currentState)
 
-        checkLength(nextStateDirection)
+        updateLength(nextState)
 
-        stateOfSnake.asReversed().add(nextStateDirection)
-        return mutableListOf(nextStateDirection).plus(stateOfSnake)
+        // Add the new state at the front
+        // Comment for Jens, is there a clearer way to accomplish adding an element to the front of a collection?
+        stateOfSnake.asReversed().add(nextState)
+        return mutableListOf(nextState).plus(stateOfSnake)
     }
 
-    private fun validMove(direction: Direction, currentStateDirection: Direction): Boolean {
+    private fun checkForValidMove(newDirection: Direction, currentDirection: Direction): Boolean {
         return when {
-            direction == up     && currentStateDirection == down    -> false
-            direction == left   && currentStateDirection == right   -> false
-            direction == down   && currentStateDirection == up      -> false
-            direction == right  && currentStateDirection == left    -> false
-
-            direction       ==     currentStateDirection            -> false
+            newDirection == up     && currentDirection == down    -> false
+            newDirection == left   && currentDirection == right   -> false
+            newDirection == down   && currentDirection == up      -> false
+            newDirection == right  && currentDirection == left    -> false
+            // Avoid adding several inputs for same directions
+            newDirection       ==     currentDirection            -> false
             else -> true
         }
     }
 
-    private fun nextStateDirection(state: State): State {
-        val nextState: State = state.copy()
+    private fun nextStatePosition(currentState: State): State {
+        val workingPositionState: State = currentState.copy()
         when {
-            state.nextDirections[0] == left     -> nextState.xPosition -= 1
-            state.nextDirections[0] == up       -> nextState.yPosition -= 1
-            state.nextDirections[0] == right    -> nextState.xPosition += 1
-            state.nextDirections[0] == down     -> nextState.yPosition += 1
+            currentState.nextDirections[0] == left     -> workingPositionState.xPosition -= 1
+            currentState.nextDirections[0] == up       -> workingPositionState.yPosition -= 1
+            currentState.nextDirections[0] == right    -> workingPositionState.xPosition += 1
+            currentState.nextDirections[0] == down     -> workingPositionState.yPosition += 1
         }
 
-        if (nextState.xPosition < 0) {
-            nextState.xPosition = 15
+        // Comment for Jens, this seems rather lengthy, I could break this routine up into smaller ones.
+        // But the code would still have a lot of "if" statements.
+        if (workingPositionState.xPosition < 0) {
+            workingPositionState.xPosition = 15
         }
-        if (nextState.yPosition < 0) {
-            nextState.yPosition = 15
+        if (workingPositionState.yPosition < 0) {
+            workingPositionState.yPosition = 15
         }
-        if (nextState.xPosition > 15) {
-            nextState.xPosition = 0
+        if (workingPositionState.xPosition > 15) {
+            workingPositionState.xPosition = 0
         }
-        if (nextState.yPosition > 15) {
-            nextState.yPosition = 0
-        }
-
-        if (state.nextDirections.size > 1) {
-            nextState.nextDirections.removeAt(0)
+        if (workingPositionState.yPosition > 15) {
+            workingPositionState.yPosition = 0
         }
 
-        return nextState
+        // Comment for Jens, does this make more sense to move to separate routine?
+        if (currentState.nextDirections.size > 1) {
+            workingPositionState.nextDirections.removeAt(0)
+        }
+
+        return workingPositionState
     }
 
-     private fun checkLength(currentState: State) {
+     private fun updateLength(currentState: State) {
         if (stateOfSnake.size > currentState.length) {
             stateOfSnake.removeAt(stateOfSnake.size - 1)
         }
@@ -122,7 +116,4 @@ class Snake {
     private fun addLength() {
         stateOfSnake[0].length += 1
     }
-    //TODO state, list of objects containing position.
-    //TODO Method: Add new state, take input from user, whether the new move will be food/crash into self.
-
 }
