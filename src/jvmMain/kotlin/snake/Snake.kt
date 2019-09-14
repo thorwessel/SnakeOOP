@@ -34,7 +34,7 @@ class Snake {
     }
 
     // Comment for Jens, side effects, how could I re-structure to avoid the "addLength()" call?
-    fun hitFood(foodLocation: FoodLocation): Boolean {
+    fun checkFoodCollision(foodLocation: FoodLocation): Boolean {
         return if (foodLocation.xPosition == stateOfSnake[0].xPosition && foodLocation.yPosition == stateOfSnake[0].yPosition ) {
             addLength()
             true
