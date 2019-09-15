@@ -9,9 +9,13 @@ import com.soywiz.korma.geom.vector.rect
 
 import food.Food
 import models.Direction
+import movement.Movement
 import snake.Snake
 
 suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"]) {
+    // Initiate Movement validator
+    val movement = Movement()
+
     // Create food
     val food = Food()
     food.getNewFoodLocation()
@@ -54,16 +58,24 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
     // key listeners
     keys {
         down(Key.DOWN) {
-            snake.addDirection(Direction.down)
+            if (movement.checkForValidMove(snake.getLastQueuedDirection(), Direction.down)) {
+                snake.addDirection(Direction.down)
+            }
         }
         down(Key.UP) {
-            snake.addDirection(Direction.up)
+            if (movement.checkForValidMove(snake.getLastQueuedDirection(), Direction.up)) {
+                snake.addDirection(Direction.up)
+            }
         }
         down(Key.LEFT) {
-            snake.addDirection(Direction.left)
+            if (movement.checkForValidMove(snake.getLastQueuedDirection(), Direction.left)) {
+                snake.addDirection(Direction.left)
+            }
         }
         down(Key.RIGHT) {
-            snake.addDirection(Direction.right)
+            if (movement.checkForValidMove(snake.getLastQueuedDirection(), Direction.right)) {
+                snake.addDirection(Direction.right)
+            }
         }
     }
 }

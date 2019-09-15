@@ -28,9 +28,12 @@ class Snake {
     }
 
     fun addDirection(inputDirection: Direction) {
-        if (checkForValidMove(inputDirection, stateOfSnake[0].nextDirections[stateOfSnake[0].nextDirections.size - 1])) {
-            stateOfSnake[0].nextDirections.add(inputDirection)
-        }
+        stateOfSnake[0].nextDirections.add(inputDirection)
+    }
+
+    fun getLastQueuedDirection(): Direction {
+        val lengthOfDirectionQue = stateOfSnake[0].nextDirections.size - 1
+        return stateOfSnake[0].nextDirections[lengthOfDirectionQue]
     }
 
     // Comment for Jens, side effects, how could I re-structure to avoid the "addLength()" call?
@@ -61,18 +64,6 @@ class Snake {
         // Comment for Jens, is there a clearer way to accomplish adding an element to the front of a collection?
         stateOfSnake.asReversed().add(nextState)
         return mutableListOf(nextState).plus(stateOfSnake)
-    }
-
-    private fun checkForValidMove(newDirection: Direction, currentDirection: Direction): Boolean {
-        return when {
-            newDirection == up     && currentDirection == down    -> false
-            newDirection == left   && currentDirection == right   -> false
-            newDirection == down   && currentDirection == up      -> false
-            newDirection == right  && currentDirection == left    -> false
-            // Avoid adding several inputs for same directions
-            newDirection       ==     currentDirection            -> false
-            else -> true
-        }
     }
 
     private fun nextStatePosition(currentState: State): State {
