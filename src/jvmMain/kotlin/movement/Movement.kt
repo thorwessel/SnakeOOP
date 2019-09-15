@@ -4,8 +4,7 @@ import models.Direction
 
 class Movement {
     // Comment for Jens, I started by having this routine in the Snake class, but decided to move it here.
-    // However, now the key listeners in main is more complex, would it make more sense to keep the check for a valid
-    // move in the Snake class instead?
+    // Should I use make a polymorphic object instead?
     fun checkForValidMove(newDirection: Direction, lastQueuedDirection: Direction): Boolean {
         return when {
             newDirection == Direction.up    && lastQueuedDirection == Direction.down   -> false
