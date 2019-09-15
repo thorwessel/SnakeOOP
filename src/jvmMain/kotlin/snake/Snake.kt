@@ -68,6 +68,12 @@ class Snake {
 
     private fun nextStatePosition(currentState: State): State {
         val workingPositionState: State = currentState.copy()
+
+        // Comment for Jens, does this make more sense to move to separate routine?
+        if (currentState.nextDirections.size > 1) {
+            workingPositionState.nextDirections.removeAt(0)
+        }
+        
         when {
             currentState.nextDirections[0] == left     -> workingPositionState.xPosition -= 1
             currentState.nextDirections[0] == up       -> workingPositionState.yPosition -= 1
@@ -88,11 +94,6 @@ class Snake {
         }
         if (workingPositionState.yPosition > 15) {
             workingPositionState.yPosition = 0
-        }
-
-        // Comment for Jens, does this make more sense to move to separate routine?
-        if (currentState.nextDirections.size > 1) {
-            workingPositionState.nextDirections.removeAt(0)
         }
 
         return workingPositionState
