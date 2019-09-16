@@ -22,7 +22,7 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
 
     // Start new snake game
     val snake = Snake()
-    snake.reset()
+    snake.resetInternalState()
 
     //Scale used for graphics
     val scale = 32
@@ -33,7 +33,7 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
     launchImmediately {
         while (true) {
             val foodLocation = food.foodLocation
-            if (snake.checkSnakeCollision()) snake.reset()
+            if (snake.checkSnakeCollision()) snake.resetInternalState()
 
             val snakeStates = snake.getNextSnake()
             if (snake.checkFoodCollision(foodLocation)) food.getNewFoodLocation()

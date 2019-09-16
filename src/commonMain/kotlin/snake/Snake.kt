@@ -9,7 +9,7 @@ class Snake {
     //Holds the "state" of the snake
     private var stateOfSnake: MutableList<State> = mutableListOf()
 
-    fun reset(): List<State> {
+    fun resetInternalState(): List<State> {
         stateOfSnake = mutableListOf(
             State(
                 xPosition = 8,
@@ -36,7 +36,7 @@ class Snake {
         return stateOfSnake[0].nextDirections[lengthOfDirectionQue]
     }
 
-    // Comment for Jens, side effects, how could I re-structure to avoid the "addLength()" call?
+    // Comment for Jens, side effects, any ideas on how I can re-structure to avoid the "addLength()" call?
     fun checkFoodCollision(foodLocation: FoodLocation): Boolean {
         return if (foodLocation.xPosition == stateOfSnake[0].xPosition && foodLocation.yPosition == stateOfSnake[0].yPosition ) {
             addLength()
