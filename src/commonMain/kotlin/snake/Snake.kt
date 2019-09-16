@@ -54,12 +54,11 @@ class Snake {
         return false
     }
 
-    fun nextStates(): List<State> {
+    fun getNextSnake(): List<State> {
         val currentState = stateOfSnake[0]
 
         var nextState = updateDirectionQue(currentState)
         nextState = nextStatePosition(nextState)
-
 
         updateLength(nextState)
 

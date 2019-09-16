@@ -35,7 +35,7 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
             val foodLocation = food.foodLocation
             if (snake.checkSnakeCollision()) snake.reset()
 
-            val snakeStates = snake.nextStates()
+            val snakeStates = snake.getNextSnake()
             if (snake.checkFoodCollision(foodLocation)) food.getNewFoodLocation()
 
             val newView = container()
