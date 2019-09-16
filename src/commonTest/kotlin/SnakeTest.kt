@@ -1,12 +1,12 @@
 
 import com.soywiz.korio.lang.assert
 import models.Direction
+import models.FoodLocation
 import models.State
 
 import snake.Snake
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
 
 
 class SnakeTest {
@@ -136,7 +136,51 @@ class SnakeTest {
         snake.addDirection(Direction.left)
         snake.addDirection(Direction.right)
         snake.addDirection(Direction.down)
-        
+
         assertEquals(Direction.down, snake.getLastQueuedDirection(), "Last added direction was not returned")
+    }
+
+    @Test
+    fun `Check that snake collision is detected`() {
+        val snake = Snake()
+        snake.resetInternalState()
+        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
+        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
+        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
+        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
+        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
+        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
+        snake.addDirection(Direction.left)
+        snake.addDirection(Direction.left)
+        snake.addDirection(Direction.up)
+        snake.addDirection(Direction.right)
+        snake.addDirection(Direction.down)
+        snake.getNextSnake()
+        snake.getNextSnake()
+        snake.getNextSnake()
+        snake.getNextSnake()
+        snake.getNextSnake()
+
+
+        assertEquals(true, snake.checkSnakeCollision(), "Snake did not collide")
+    }
+
+    @Test
+    fun `Check that food collision is detected`() {
+        val snake = Snake()
+        snake.resetInternalState()
+
+        /*
+       Initial state = State(
+           xPosition = 8,
+           yPosition = 8,
+           length = 1,
+           nextDirections = mutableListOf(Direction.left))
+        */
+
+        snake.getNextSnake()
+
+        assertEquals(true, snake.checkFoodCollision(FoodLocation(xPosition = 7, yPosition = 8)),
+            "Food was not hit as expected!")
     }
 }
