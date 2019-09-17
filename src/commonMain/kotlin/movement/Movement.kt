@@ -13,6 +13,7 @@ class Movement {
             newDirection == Direction.right && lastQueuedDirection == Direction.left   -> false
             // Avoid adding several inputs for same directions
             newDirection                ==     lastQueuedDirection                     -> false
+
             else -> true
         }
     }
