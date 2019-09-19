@@ -44,7 +44,16 @@ class Snake {
         length += 1
     }
 
-    fun checkSnakeCollision(): Boolean {
+    fun checkSnakeCollision(positions: List<Position>): Boolean {
+        positions.forEach {
+            if (it == stateOfSnake[0]) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun checkSelfCollision(): Boolean {
         for (stateIterator in 1 until stateOfSnake.size) {
             if (stateOfSnake[stateIterator] == stateOfSnake[0]) {
                 return true
