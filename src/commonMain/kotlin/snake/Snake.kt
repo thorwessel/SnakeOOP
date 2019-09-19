@@ -11,7 +11,7 @@ class Snake {
 
     private var length: Int = 2
 
-    private val nextDirections: MutableList<Direction> = mutableListOf(left)
+    private val nextDirections: MutableList<Direction> = mutableListOf(values().toList().shuffled().first())
 
     fun resetInternalState(): MutableList<Position> {
         stateOfSnake = mutableListOf(
