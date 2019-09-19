@@ -46,8 +46,7 @@ class Snake {
 
     fun checkSnakeCollision(): Boolean {
         for (stateIterator in 1 until stateOfSnake.size) {
-            if (stateOfSnake[stateIterator].xPosition == stateOfSnake[0].xPosition &&
-                stateOfSnake[stateIterator].yPosition == stateOfSnake[0].yPosition) {
+            if (stateOfSnake[stateIterator] == stateOfSnake[0]) {
                 return true
             }
         }
