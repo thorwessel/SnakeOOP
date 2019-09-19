@@ -5,12 +5,15 @@ import models.Direction.*
 import models.Position
 
 class Snake {
-    //Holds the "state" of the snake
+
     private var stateOfSnake: MutableList<Position> = mutableListOf()
 
     private var length: Int = 2
 
     private val nextDirections: MutableList<Direction> = mutableListOf(values().toList().shuffled().first())
+
+    private val lowerBoardLimit = 0
+    private val upperBoardLimit = 0
 
     fun resetInternalState(): MutableList<Position> {
         stateOfSnake = mutableListOf(
@@ -81,10 +84,10 @@ class Snake {
         }
 
         when {
-            workingXPosition < 0        -> workingXPosition = 15
-            workingXPosition > 15       -> workingXPosition = 0
-            workingYPosition < 0        -> workingYPosition = 15
-            workingYPosition > 15       -> workingYPosition = 0
+            workingXPosition < lowerBoardLimit          -> workingXPosition = upperBoardLimit
+            workingXPosition > upperBoardLimit          -> workingXPosition = lowerBoardLimit
+            workingYPosition < lowerBoardLimit          -> workingYPosition = upperBoardLimit
+            workingYPosition > upperBoardLimit          -> workingYPosition = lowerBoardLimit
         }
 
         return Position(workingXPosition, workingYPosition)
