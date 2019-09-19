@@ -48,6 +48,7 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
                         rect(it.xPosition * scale, it.yPosition * scale, scale, scale)
                     }
                 }
+
                 fill(Colors.MAROON) {
                     rect(foodLocation.xPosition * scale, foodLocation.yPosition * scale, scale, scale)
                 }
