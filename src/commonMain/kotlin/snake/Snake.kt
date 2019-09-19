@@ -7,41 +7,33 @@ import models.State
 
 class Snake {
     //Holds the "state" of the snake
-    private var stateOfSnake: MutableList<State> = mutableListOf()
+    private var stateOfSnake: MutableList<Position> = mutableListOf()
 
-    fun resetInternalState(): MutableList<State> {
+    private var length: Int = 0
+
+    private val nextDirections: MutableList<Direction> = mutableListOf(left)
+
+    fun resetInternalState(): MutableList<Position> {
         stateOfSnake = mutableListOf(
-            State(
+            Position(
                 xPosition = 8,
-                yPosition = 8,
-                length = 1,
-                nextDirections = mutableListOf(left)),
-            State(
+                yPosition = 8
+            ),
+            Position(
                 xPosition = 7,
-                yPosition = 8,
-                length = 1,
-                nextDirections = mutableListOf(left))
-        )
+                yPosition = 8
+            ))
 
         return stateOfSnake
     }
 
     fun addDirection(inputDirection: Direction) {
-        stateOfSnake[0].nextDirections.add(inputDirection)
-    }
-
-    private fun updateDirectionQue(currentState: State): State {
-        val workingPositionState = currentState.copy()
-        if (currentState.nextDirections.size > 1) {
-            workingPositionState.nextDirections.removeAt(0)
-        }
-
-        return workingPositionState
+        nextDirections.add(inputDirection)
     }
 
     fun getLastQueuedDirection(): Direction {
-        val lengthOfDirectionQue = stateOfSnake[0].nextDirections.size - 1
-        return stateOfSnake[0].nextDirections[lengthOfDirectionQue]
+        val lengthOfDirectionQueue = nextDirections.size - 1
+        return nextDirections[lengthOfDirectionQueue]
     }
 
     // Comment for Jens, side effects, any ideas on how I can re-structure to avoid the "addLength()" call?
@@ -53,7 +45,7 @@ class Snake {
     }
 
     private fun addLength() {
-        stateOfSnake[0].length += 1
+        length += 1
     }
 
     fun checkSnakeCollision(): Boolean {
@@ -66,50 +58,45 @@ class Snake {
         return false
     }
 
-    fun getNextSnake(): List<State> {
-        val currentState = stateOfSnake[0]
+    fun getNextSnake(): List<Position> {
+        updateDirectionQueue()
 
-        var nextState = updateDirectionQue(currentState)
-        nextState = nextStatePosition(nextState)
+        val nextState = nextStatePosition(stateOfSnake[0])
 
-        updateLength(nextState)
+        updateLength()
 
-        // Add the new state at the front
-        // Comment for Jens, is there a clearer way to accomplish adding an element to the front of a collection?
         stateOfSnake.asReversed().add(nextState)
         return stateOfSnake
     }
 
-    private fun nextStatePosition(currentState: State): State {
-        val workingPositionState: State = currentState.copy()
+    private fun nextStatePosition(currentState: Position): Position {
+        var workingXPosition: Int = currentState.xPosition
+        var workingYPosition: Int = currentState.yPosition
         when {
-            currentState.nextDirections[0] == left     -> workingPositionState.xPosition -= 1
-            currentState.nextDirections[0] == up       -> workingPositionState.yPosition -= 1
-            currentState.nextDirections[0] == right    -> workingPositionState.xPosition += 1
-            currentState.nextDirections[0] == down     -> workingPositionState.yPosition += 1
+            nextDirections[0] == left     -> workingXPosition -= 1
+            nextDirections[0] == up       -> workingYPosition -= 1
+            nextDirections[0] == right    -> workingXPosition += 1
+            nextDirections[0] == down     -> workingYPosition += 1
         }
 
-        // Comment for Jens, this seems rather lengthy, I could break this routine up into smaller ones.
-        // But the code would still have a lot of "if" statements.
-        //TODo make into a when statement instead.
-        if (workingPositionState.xPosition < 0) {
-            workingPositionState.xPosition = 15
-        }
-        if (workingPositionState.yPosition < 0) {
-            workingPositionState.yPosition = 15
-        }
-        if (workingPositionState.xPosition > 15) {
-            workingPositionState.xPosition = 0
-        }
-        if (workingPositionState.yPosition > 15) {
-            workingPositionState.yPosition = 0
+        when {
+            workingXPosition < 0 -> workingXPosition = 15
+            workingXPosition > 15 -> workingXPosition = 0
+            workingYPosition < 0 -> workingYPosition = 15
+            workingYPosition > 15 -> workingYPosition = 0
         }
 
-        return workingPositionState
+        return Position(workingXPosition, workingYPosition)
     }
 
-     private fun updateLength(currentState: State) {
-        if (stateOfSnake.size > currentState.length) {
+    private fun updateDirectionQueue() {
+        if (nextDirections.size > 1) {
+            nextDirections.removeAt(0)
+        }
+    }
+
+     private fun updateLength() {
+        if (stateOfSnake.size > length) {
             stateOfSnake.removeAt(stateOfSnake.size - 1)
         }
     }
