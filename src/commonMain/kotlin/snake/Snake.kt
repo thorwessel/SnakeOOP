@@ -31,6 +31,15 @@ class Snake {
         stateOfSnake[0].nextDirections.add(inputDirection)
     }
 
+    private fun updateDirectionQue(currentState: State): State {
+        val workingPositionState = currentState.copy()
+        if (currentState.nextDirections.size > 1) {
+            workingPositionState.nextDirections.removeAt(0)
+        }
+
+        return workingPositionState
+    }
+
     fun getLastQueuedDirection(): Direction {
         val lengthOfDirectionQue = stateOfSnake[0].nextDirections.size - 1
         return stateOfSnake[0].nextDirections[lengthOfDirectionQue]
@@ -42,6 +51,10 @@ class Snake {
             addLength()
             true
         } else false
+    }
+
+    private fun addLength() {
+        stateOfSnake[0].length += 1
     }
 
     fun checkSnakeCollision(): Boolean {
@@ -65,7 +78,7 @@ class Snake {
         // Add the new state at the front
         // Comment for Jens, is there a clearer way to accomplish adding an element to the front of a collection?
         stateOfSnake.asReversed().add(nextState)
-        return mutableListOf(nextState).plus(stateOfSnake)
+        return stateOfSnake
     }
 
     private fun nextStatePosition(currentState: State): State {
@@ -95,22 +108,9 @@ class Snake {
         return workingPositionState
     }
 
-    private fun updateDirectionQue(currentState: State): State {
-        val workingPositionState = currentState.copy()
-        if (currentState.nextDirections.size > 1) {
-            workingPositionState.nextDirections.removeAt(0)
-        }
-
-        return workingPositionState
-    }
-
      private fun updateLength(currentState: State) {
         if (stateOfSnake.size > currentState.length) {
             stateOfSnake.removeAt(stateOfSnake.size - 1)
         }
-    }
-
-    private fun addLength() {
-        stateOfSnake[0].length += 1
     }
 }
