@@ -9,20 +9,18 @@ class Snake {
     //Holds the "state" of the snake
     private var stateOfSnake: MutableList<Position> = mutableListOf()
 
-    private var length: Int = 0
+    private var length: Int = 2
 
     private val nextDirections: MutableList<Direction> = mutableListOf(left)
 
     fun resetInternalState(): MutableList<Position> {
         stateOfSnake = mutableListOf(
             Position(
-                xPosition = 8,
-                yPosition = 8
-            ),
-            Position(
-                xPosition = 7,
-                yPosition = 8
+                xPosition = (0..15).random(),
+                yPosition = (0..15).random()
             ))
+
+        length = 2
 
         return stateOfSnake
     }
@@ -37,8 +35,8 @@ class Snake {
     }
 
     // Comment for Jens, side effects, any ideas on how I can re-structure to avoid the "addLength()" call?
-    fun checkFoodCollision(position: Position): Boolean {
-        return if (position.xPosition == stateOfSnake[0].xPosition && position.yPosition == stateOfSnake[0].yPosition ) {
+    fun checkFoodCollision(foodPosition: Position): Boolean {
+        return if (foodPosition.xPosition == stateOfSnake[0].xPosition && foodPosition.yPosition == stateOfSnake[0].yPosition ) {
             addLength()
             true
         } else false
@@ -49,7 +47,7 @@ class Snake {
     }
 
     fun checkSnakeCollision(): Boolean {
-        for (stateIterator in 1 until stateOfSnake.size - 1) {
+        for (stateIterator in 1 until stateOfSnake.size) {
             if (stateOfSnake[stateIterator].xPosition == stateOfSnake[0].xPosition &&
                 stateOfSnake[stateIterator].yPosition == stateOfSnake[0].yPosition) {
                 return true
@@ -60,12 +58,10 @@ class Snake {
 
     fun getNextSnake(): List<Position> {
         updateDirectionQueue()
-
-        val nextState = nextStatePosition(stateOfSnake[0])
-
+        val nextPosition = nextStatePosition(stateOfSnake[0])
+        stateOfSnake.asReversed().add(nextPosition)
         updateLength()
 
-        stateOfSnake.asReversed().add(nextState)
         return stateOfSnake
     }
 
@@ -73,17 +69,17 @@ class Snake {
         var workingXPosition: Int = currentState.xPosition
         var workingYPosition: Int = currentState.yPosition
         when {
-            nextDirections[0] == left     -> workingXPosition -= 1
-            nextDirections[0] == up       -> workingYPosition -= 1
-            nextDirections[0] == right    -> workingXPosition += 1
-            nextDirections[0] == down     -> workingYPosition += 1
+            nextDirections[0] == left   -> workingXPosition -= 1
+            nextDirections[0] == up     -> workingYPosition -= 1
+            nextDirections[0] == right  -> workingXPosition += 1
+            nextDirections[0] == down   -> workingYPosition += 1
         }
 
         when {
-            workingXPosition < 0 -> workingXPosition = 15
-            workingXPosition > 15 -> workingXPosition = 0
-            workingYPosition < 0 -> workingYPosition = 15
-            workingYPosition > 15 -> workingYPosition = 0
+            workingXPosition < 0        -> workingXPosition = 15
+            workingXPosition > 15       -> workingXPosition = 0
+            workingYPosition < 0        -> workingYPosition = 15
+            workingYPosition > 15       -> workingYPosition = 0
         }
 
         return Position(workingXPosition, workingYPosition)
