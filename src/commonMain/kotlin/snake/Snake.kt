@@ -21,7 +21,6 @@ class Snake {
             ))
 
         length = 2
-
         return stateOfSnake
     }
 
@@ -34,9 +33,8 @@ class Snake {
         return nextDirections[lengthOfDirectionQueue]
     }
 
-    // Comment for Jens, side effects, any ideas on how I can re-structure to avoid the "addLength()" call?
     fun checkFoodCollision(foodPosition: Position): Boolean {
-        return if (foodPosition.xPosition == stateOfSnake[0].xPosition && foodPosition.yPosition == stateOfSnake[0].yPosition ) {
+        return if (foodPosition == stateOfSnake[0]) {
             addLength()
             true
         } else false
