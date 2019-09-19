@@ -2,21 +2,20 @@ package snake
 
 import models.Direction
 import models.Direction.*
-import models.FoodLocation
+import models.Position
 import models.State
 
 class Snake {
     //Holds the "state" of the snake
     private var stateOfSnake: MutableList<State> = mutableListOf()
 
-    fun resetInternalState(): List<State> {
+    fun resetInternalState(): MutableList<State> {
         stateOfSnake = mutableListOf(
             State(
                 xPosition = 8,
                 yPosition = 8,
                 length = 1,
                 nextDirections = mutableListOf(left)),
-
             State(
                 xPosition = 7,
                 yPosition = 8,
@@ -46,8 +45,8 @@ class Snake {
     }
 
     // Comment for Jens, side effects, any ideas on how I can re-structure to avoid the "addLength()" call?
-    fun checkFoodCollision(foodLocation: FoodLocation): Boolean {
-        return if (foodLocation.xPosition == stateOfSnake[0].xPosition && foodLocation.yPosition == stateOfSnake[0].yPosition ) {
+    fun checkFoodCollision(position: Position): Boolean {
+        return if (position.xPosition == stateOfSnake[0].xPosition && position.yPosition == stateOfSnake[0].yPosition ) {
             addLength()
             true
         } else false
@@ -92,6 +91,7 @@ class Snake {
 
         // Comment for Jens, this seems rather lengthy, I could break this routine up into smaller ones.
         // But the code would still have a lot of "if" statements.
+        //TODo make into a when statement instead.
         if (workingPositionState.xPosition < 0) {
             workingPositionState.xPosition = 15
         }

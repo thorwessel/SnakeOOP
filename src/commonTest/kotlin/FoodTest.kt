@@ -5,7 +5,7 @@ import kotlin.random.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class FoodTest() {
+class FoodTest {
 
     private fun getRandomList(random: Random): MutableList<Int> =
         MutableList(10000) { random.nextInt(0, 16) }

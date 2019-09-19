@@ -1,15 +1,15 @@
 package food
 
-import models.FoodLocation
+import models.Position
 
 class Food {
-    var foodLocation: FoodLocation = FoodLocation(xPosition = 16, yPosition = 16)
+    var position: Position = Position(xPosition = 16, yPosition = 16)
 
-    fun getNewFoodLocation(): FoodLocation {
+    fun getNewFoodLocation(): Position {
         val randomXPosition = (0..15).random()
         val randomYPosition = (0..15).random()
 
-        foodLocation = FoodLocation(randomXPosition, randomYPosition)
-        return FoodLocation(randomXPosition, randomYPosition)
+        position = Position(randomXPosition, randomYPosition)
+        return Position(randomXPosition, randomYPosition)
     }
 }

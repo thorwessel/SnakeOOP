@@ -1,7 +1,7 @@
 
 import com.soywiz.korio.lang.assert
 import models.Direction
-import models.FoodLocation
+import models.Position
 import models.State
 
 import snake.Snake
@@ -144,12 +144,12 @@ class SnakeTest {
     fun `Check that snake collision is detected`() {
         val snake = Snake()
         snake.resetInternalState()
-        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
-        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
-        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
-        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
-        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
-        snake.checkFoodCollision(foodLocation = FoodLocation(8, 8))
+        snake.checkFoodCollision(foodLocation = Position(8, 8))
+        snake.checkFoodCollision(foodLocation = Position(8, 8))
+        snake.checkFoodCollision(foodLocation = Position(8, 8))
+        snake.checkFoodCollision(foodLocation = Position(8, 8))
+        snake.checkFoodCollision(foodLocation = Position(8, 8))
+        snake.checkFoodCollision(foodLocation = Position(8, 8))
         snake.addDirection(Direction.left)
         snake.addDirection(Direction.left)
         snake.addDirection(Direction.up)
@@ -180,7 +180,7 @@ class SnakeTest {
 
         snake.getNextSnake()
 
-        assertEquals(true, snake.checkFoodCollision(FoodLocation(xPosition = 7, yPosition = 8)),
+        assertEquals(true, snake.checkFoodCollision(Position(xPosition = 7, yPosition = 8)),
             "Food was not hit as expected!")
     }
 }
