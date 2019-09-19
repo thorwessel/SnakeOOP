@@ -13,7 +13,7 @@ class Snake {
     private val nextDirections: MutableList<Direction> = mutableListOf(values().toList().shuffled().first())
 
     private val lowerBoardLimit = 0
-    private val upperBoardLimit = 0
+    private val upperBoardLimit = 15
 
     fun resetInternalState(): MutableList<Position> {
         stateOfSnake = mutableListOf(
@@ -36,13 +36,10 @@ class Snake {
     }
 
     fun checkFoodCollision(foodPosition: Position): Boolean {
-        return if (foodPosition == stateOfSnake[0]) {
-            addLength()
-            true
-        } else false
+        return foodPosition == stateOfSnake[0]
     }
 
-    private fun addLength() {
+    fun addLength() {
         length += 1
     }
 
@@ -84,10 +81,10 @@ class Snake {
         }
 
         when {
-            workingXPosition < lowerBoardLimit          -> workingXPosition = upperBoardLimit
-            workingXPosition > upperBoardLimit          -> workingXPosition = lowerBoardLimit
-            workingYPosition < lowerBoardLimit          -> workingYPosition = upperBoardLimit
-            workingYPosition > upperBoardLimit          -> workingYPosition = lowerBoardLimit
+            workingXPosition < lowerBoardLimit       -> workingXPosition = upperBoardLimit
+            workingXPosition > upperBoardLimit       -> workingXPosition = lowerBoardLimit
+            workingYPosition < lowerBoardLimit       -> workingYPosition = upperBoardLimit
+            workingYPosition > upperBoardLimit       -> workingYPosition = lowerBoardLimit
         }
 
         return Position(workingXPosition, workingYPosition)
