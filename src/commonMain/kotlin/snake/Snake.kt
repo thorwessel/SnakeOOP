@@ -3,7 +3,6 @@ package snake
 import models.Direction
 import models.Direction.*
 import models.Position
-import models.State
 
 class Snake {
     //Holds the "state" of the snake

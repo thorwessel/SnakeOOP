@@ -31,7 +31,6 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
     // Speed step, used to add delay between each render
     val delayInterval = 0.3
 
-
     launchImmediately {
         while (true) {
             val foodLocation = food.position
