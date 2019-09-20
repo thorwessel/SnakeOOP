@@ -8,7 +8,6 @@ import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.vector.rect
 
 import game.Game
-import models.Direction
 import models.GameObjects.*
 
 suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"]) {
@@ -16,33 +15,37 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
     val game = Game()
     game.start()
 
-    var numberOfPlayers = 1
-
-    //Scale used for graphics
+    // Scale used for graphics
     val scale = 32
     // Speed step, used to add delay between each render
     val delayInterval = 0.3
 
+    // Score
+    val score = text("Green 0  - 0 Blue ").apply { this.filtering = false }
+
     launchImmediately {
         while (true) {
-            val currentObjectsToBeRendered = game.next()
+            val snakesAndFood = game.next()
 
             val newView = container()
 
+            score.text = "Green ${snakesAndFood[Player1]?.size?.minus(2)}" +
+                    " - ${snakesAndFood[Player2]?.size?.minus(2)} Blue"
+
             newView.graphics {
-                currentObjectsToBeRendered[Player1]?.map {
+                snakesAndFood[Player1]?.map {
                     fill(Colors.DARKGREEN) {
                         rect(it.xPosition * scale, it.yPosition * scale, scale, scale)
                     }
                 }
 
-                currentObjectsToBeRendered[Player2]?.map {
+                snakesAndFood[Player2]?.map {
                     fill(Colors.DARKBLUE) {
                         rect(it.xPosition * scale, it.yPosition * scale, scale, scale)
                     }
                 }
 
-                currentObjectsToBeRendered[Food]?.map {
+                snakesAndFood[Food]?.map {
                     fill(Colors.MAROON) {
                         rect(it.xPosition * scale, it.yPosition * scale, scale, scale)
                     }
@@ -55,35 +58,8 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
 
     // key listeners
     keys {
-        down(Key.N1) {
-            numberOfPlayers = 1
-        }
-        down(Key.N2) {
-            numberOfPlayers = 2
-        }
-        down(Key.DOWN) {
-            game.registerInput(Direction.down, Player1)
-        }
-        down(Key.UP) {
-            game.registerInput(Direction.up, Player1)
-        }
-        down(Key.LEFT) {
-            game.registerInput(Direction.left, Player1)
-        }
-        down(Key.RIGHT) {
-            game.registerInput(Direction.right, Player1)
-        }
-        down(Key.S) {
-            game.registerInput(Direction.down, Player2)
-        }
-        down(Key.W) {
-            game.registerInput(Direction.up, Player2)
-        }
-        down(Key.A) {
-            game.registerInput(Direction.left, Player2)
-        }
-        down(Key.D) {
-            game.registerInput(Direction.right, Player2)
+        down {
+            game.registerInput(this)
         }
     }
 }
