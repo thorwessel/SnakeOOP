@@ -70,10 +70,10 @@ class Snake {
         var workingXPosition: Int = currentState.xPosition
         var workingYPosition: Int = currentState.yPosition
         when {
-            nextDirections[0] == left   -> workingXPosition -= 1
-            nextDirections[0] == up     -> workingYPosition -= 1
-            nextDirections[0] == right  -> workingXPosition += 1
-            nextDirections[0] == down   -> workingYPosition += 1
+            nextDirections[0] == Left   -> workingXPosition -= 1
+            nextDirections[0] == Up     -> workingYPosition -= 1
+            nextDirections[0] == Right  -> workingXPosition += 1
+            nextDirections[0] == Down   -> workingYPosition += 1
         }
 
         when {

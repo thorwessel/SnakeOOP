@@ -4,7 +4,6 @@ import com.soywiz.korev.Key
 import com.soywiz.korev.KeyEvent
 import models.Position
 import food.Food
-import models.Direction
 import models.Direction.*
 import models.GameObjects
 import models.GameObjects.*
@@ -56,22 +55,22 @@ class Game {
 
     fun registerInput(keyEvent: KeyEvent) {
         when {
-            keyEvent.key == Key.DOWN && (movement.checkForValidMove(snake1.getLastQueuedDirection(), down))
-            -> snake1.addDirection(down)
-            keyEvent.key == Key.UP && (movement.checkForValidMove(snake1.getLastQueuedDirection(), up))
-            -> snake1.addDirection(up)
-            keyEvent.key == Key.LEFT && (movement.checkForValidMove(snake1.getLastQueuedDirection(), left))
-            -> snake1.addDirection(left)
-            keyEvent.key == Key.RIGHT && (movement.checkForValidMove(snake1.getLastQueuedDirection(), right))
-            -> snake1.addDirection(right)
-            keyEvent.key == Key.S && (movement.checkForValidMove(snake2.getLastQueuedDirection(), down))
-            -> snake2.addDirection(down)
-            keyEvent.key == Key.W && (movement.checkForValidMove(snake2.getLastQueuedDirection(), up))
-            -> snake2.addDirection(up)
-            keyEvent.key == Key.A && (movement.checkForValidMove(snake2.getLastQueuedDirection(), left))
-            -> snake2.addDirection(left)
-            keyEvent.key == Key.D && (movement.checkForValidMove(snake2.getLastQueuedDirection(), right))
-            -> snake2.addDirection(right)
+            keyEvent.key == Key.DOWN && (movement.checkForValidMove(snake1.getLastQueuedDirection(), Down))
+            -> snake1.addDirection(Down)
+            keyEvent.key == Key.UP && (movement.checkForValidMove(snake1.getLastQueuedDirection(), Up))
+            -> snake1.addDirection(Up)
+            keyEvent.key == Key.LEFT && (movement.checkForValidMove(snake1.getLastQueuedDirection(), Left))
+            -> snake1.addDirection(Left)
+            keyEvent.key == Key.RIGHT && (movement.checkForValidMove(snake1.getLastQueuedDirection(), Right))
+            -> snake1.addDirection(Right)
+            keyEvent.key == Key.S && (movement.checkForValidMove(snake2.getLastQueuedDirection(), Down))
+            -> snake2.addDirection(Down)
+            keyEvent.key == Key.W && (movement.checkForValidMove(snake2.getLastQueuedDirection(), Up))
+            -> snake2.addDirection(Up)
+            keyEvent.key == Key.A && (movement.checkForValidMove(snake2.getLastQueuedDirection(), Left))
+            -> snake2.addDirection(Left)
+            keyEvent.key == Key.D && (movement.checkForValidMove(snake2.getLastQueuedDirection(), Right))
+            -> snake2.addDirection(Right)
         }
     }
 }

@@ -10,13 +10,13 @@ class MovementTest {
     fun `check that identical direction is not added to the directions que`() {
         val testMovement = Movement()
 
-        assertEquals(false, testMovement.checkForValidMove(Direction.down, Direction.down),
+        assertEquals(false, testMovement.checkForValidMove(Direction.Down, Direction.Down),
             "Direction down + down returned true")
-        assertEquals(false, testMovement.checkForValidMove(Direction.up, Direction.up),
+        assertEquals(false, testMovement.checkForValidMove(Direction.Up, Direction.Up),
             "Direction up + up returned true")
-        assertEquals(false, testMovement.checkForValidMove(Direction.left, Direction.left),
+        assertEquals(false, testMovement.checkForValidMove(Direction.Left, Direction.Left),
             "Direction left + left returned true")
-        assertEquals(false, testMovement.checkForValidMove(Direction.right, Direction.right),
+        assertEquals(false, testMovement.checkForValidMove(Direction.Right, Direction.Right),
             "Direction right + right returned true")
     }
 
@@ -25,13 +25,13 @@ class MovementTest {
         // In snake it is not possible to go the opporsite way of the current direction
         val testMovement = Movement()
 
-        assertEquals(false, testMovement.checkForValidMove(Direction.down, Direction.up),
+        assertEquals(false, testMovement.checkForValidMove(Direction.Down, Direction.Up),
             "Direction down + up returned true")
-        assertEquals(false, testMovement.checkForValidMove(Direction.up, Direction.down),
+        assertEquals(false, testMovement.checkForValidMove(Direction.Up, Direction.Down),
             "Direction up + down returned true")
-        assertEquals(false, testMovement.checkForValidMove(Direction.left, Direction.right),
+        assertEquals(false, testMovement.checkForValidMove(Direction.Left, Direction.Right),
             "Direction left + right returned true")
-        assertEquals(false, testMovement.checkForValidMove(Direction.right, Direction.left),
+        assertEquals(false, testMovement.checkForValidMove(Direction.Right, Direction.Left),
             "Direction right + left returned true")
     }
 
@@ -40,24 +40,24 @@ class MovementTest {
         // In snake it is not possible to go the opporsite way of the current direction
         val testMovement = Movement()
 
-        assertEquals(true, testMovement.checkForValidMove(Direction.down, Direction.left),
+        assertEquals(true, testMovement.checkForValidMove(Direction.Down, Direction.Left),
         "Direction down + left returned false")
-        assertEquals(true, testMovement.checkForValidMove(Direction.down, Direction.right),
+        assertEquals(true, testMovement.checkForValidMove(Direction.Down, Direction.Right),
             "Direction down + right returned false")
 
-        assertEquals(true, testMovement.checkForValidMove(Direction.up, Direction.left),
+        assertEquals(true, testMovement.checkForValidMove(Direction.Up, Direction.Left),
             "Direction up + left returned false")
-        assertEquals(true, testMovement.checkForValidMove(Direction.up, Direction.right),
+        assertEquals(true, testMovement.checkForValidMove(Direction.Up, Direction.Right),
             "Direction up + right returned false")
 
-        assertEquals(true, testMovement.checkForValidMove(Direction.left, Direction.up),
+        assertEquals(true, testMovement.checkForValidMove(Direction.Left, Direction.Up),
             "Direction left + up returned false")
-        assertEquals(true, testMovement.checkForValidMove(Direction.left, Direction.down),
+        assertEquals(true, testMovement.checkForValidMove(Direction.Left, Direction.Down),
             "Direction left + down returned false")
 
-        assertEquals(true, testMovement.checkForValidMove(Direction.right, Direction.up),
+        assertEquals(true, testMovement.checkForValidMove(Direction.Right, Direction.Up),
             "Direction right + up returned false")
-        assertEquals(true, testMovement.checkForValidMove(Direction.right, Direction.down),
+        assertEquals(true, testMovement.checkForValidMove(Direction.Right, Direction.Down),
             "Direction right + down returned false")
 
     }
