@@ -43,11 +43,15 @@ class Game {
         allSnakes.forEach {
             if (it.checkFoodCollision(foodLocation)) {
                 food.getNewFoodLocation()
-                it.addLength()
+                it.length += 1
             }
         }
 
         return mapOf(Player1 to snake1Positions, Player2 to snake2Positions, Food to listOf(foodLocation))
+    }
+
+    fun getScoreText(): String {
+        return "Green ${snake1.length} - ${snake2.length} Blue "
     }
 
     fun registerInput(keyEvent: KeyEvent) {

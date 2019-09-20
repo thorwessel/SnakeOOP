@@ -26,11 +26,9 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
     launchImmediately {
         while (true) {
             val snakesAndFood = game.next()
+            score.text = game.getScoreText()
 
             val newView = container()
-
-            score.text = "Green ${snakesAndFood[Player1]?.size?.minus(2)}" +
-                    " - ${snakesAndFood[Player2]?.size?.minus(2)} Blue"
 
             newView.graphics {
                 snakesAndFood[Player1]?.map {

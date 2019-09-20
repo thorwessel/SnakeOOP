@@ -8,7 +8,7 @@ class Snake {
 
     private var stateOfSnake: MutableList<Position> = mutableListOf()
 
-    private var length: Int = 2
+    var length: Int = 2
 
     private val nextDirections: MutableList<Direction> = mutableListOf(values().toList().shuffled().first())
 
@@ -37,10 +37,6 @@ class Snake {
 
     fun checkFoodCollision(foodPosition: Position): Boolean {
         return foodPosition == stateOfSnake[0]
-    }
-
-    fun addLength() {
-        length += 1
     }
 
     fun checkSnakeCollision(positions: List<Position>): Boolean {
