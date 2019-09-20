@@ -16,6 +16,8 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
     val game = Game()
     game.start()
 
+    var numberOfPlayers = 1
+
     //Scale used for graphics
     val scale = 32
     // Speed step, used to add delay between each render
@@ -53,6 +55,12 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
 
     // key listeners
     keys {
+        down(Key.N1) {
+            numberOfPlayers = 1
+        }
+        down(Key.N2) {
+            numberOfPlayers = 2
+        }
         down(Key.DOWN) {
             game.registerInput(Direction.down, Player1)
         }

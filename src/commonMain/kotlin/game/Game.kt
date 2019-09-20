@@ -15,20 +15,24 @@ class Game {
     private val food = Food()
     private val snake1 = Snake()
     private val snake2 = Snake()
+    private val allSnakes = listOf<Snake>(snake1, snake2)
 
     var players = 1
 
     fun start() {
         food.getNewFoodLocation()
-        snake1.resetInternalState()
-        snake2.resetInternalState()
+
+        allSnakes.forEach {
+            it.resetInternalState()
+        }
     }
 
     fun next(): Map<GameObjects, List<Position>> {
         val foodLocation = food.position
 
-        if (snake1.checkSelfCollision()) snake1.resetInternalState()
-        if (snake2.checkSelfCollision()) snake2.resetInternalState()
+        allSnakes.forEach {
+            if (it.checkSelfCollision()) it.resetInternalState()
+        }
 
         val snake1Positions = snake1.getNextSnake()
         val snake2Positions = snake2.getNextSnake()
@@ -36,13 +40,11 @@ class Game {
         if (snake1.checkSnakeCollision(snake2Positions)) snake1.resetInternalState()
         if (snake2.checkSnakeCollision(snake1Positions)) snake2.resetInternalState()
 
-        if (snake1.checkFoodCollision(foodLocation)) {
-            food.getNewFoodLocation()
-            snake1.addLength()
-        }
-        if (snake2.checkFoodCollision(foodLocation)) {
-            food.getNewFoodLocation()
-            snake2.addLength()
+        allSnakes.forEach {
+            if (it.checkFoodCollision(foodLocation)) {
+                food.getNewFoodLocation()
+                it.addLength()
+            }
         }
 
         return mapOf(Player1 to snake1Positions, Player2 to snake2Positions, Food to listOf(foodLocation))
