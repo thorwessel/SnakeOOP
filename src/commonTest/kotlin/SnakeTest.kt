@@ -2,7 +2,6 @@
 import com.soywiz.korio.lang.assert
 import models.Direction
 import models.Position
-import models.State
 
 import snake.Snake
 import kotlin.test.Test
@@ -142,28 +141,20 @@ class SnakeTest {
 
 
     @Test
-    fun `Check that snake collision is detected`() {
+    fun `Check that snake self-collision is detected`() {
         val snake = Snake()
         snake.resetInternalState()
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
+        snake.length = 6
         snake.addDirection(Direction.Left)
-        snake.addDirection(Direction.Left)
+        snake.getNextSnake()
         snake.addDirection(Direction.Up)
+        snake.getNextSnake()
         snake.addDirection(Direction.Right)
+        snake.getNextSnake()
         snake.addDirection(Direction.Down)
         snake.getNextSnake()
-        snake.getNextSnake()
-        snake.getNextSnake()
-        snake.getNextSnake()
-        snake.getNextSnake()
 
-
-        assertEquals(true, snake.checkSnakeCollision(), "Snake did not collide")
+        assertEquals(true, snake.checkSelfCollision(), "Snake did not collide")
     }
 
     @Test
