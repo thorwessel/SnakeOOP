@@ -162,17 +162,9 @@ class SnakeTest {
         val snake = Snake()
         snake.resetInternalState()
 
-        /*
-       Initial state = State(
-           xPosition = 8,
-           yPosition = 8,
-           length = 1,
-           nextDirections = mutableListOf(Direction.left))
-        */
+        val snakePosition = snake.getNextSnake()
 
-        snake.getNextSnake()
-
-        assertEquals(true, snake.checkFoodCollision(Position(xPosition = 7, yPosition = 8)),
+        assertEquals(true, snake.checkFoodCollision(snakePosition[0]),
             "Food was not hit as expected!")
     }
 }
