@@ -1,6 +1,7 @@
 import com.soywiz.klock.seconds
 import com.soywiz.korev.*
 import com.soywiz.korge.*
+import com.soywiz.korge.scene.sceneContainer
 import com.soywiz.korge.time.delay
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
@@ -25,32 +26,13 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
 
     launchImmediately {
         while (true) {
-            val snakesAndFood = game.next()
+            val nextView = game.next()
             score.text = game.getScoreText()
 
-            val newView = container()
+            this.addChild(nextView)
 
-            newView.graphics {
-                snakesAndFood[Player1]?.map {
-                    fill(Colors.DARKGREEN) {
-                        rect(it.xPosition * scale, it.yPosition * scale, scale, scale)
-                    }
-                }
-
-                snakesAndFood[Player2]?.map {
-                    fill(Colors.DARKBLUE) {
-                        rect(it.xPosition * scale, it.yPosition * scale, scale, scale)
-                    }
-                }
-
-                snakesAndFood[Food]?.map {
-                    fill(Colors.MAROON) {
-                        rect(it.xPosition * scale, it.yPosition * scale, scale, scale)
-                    }
-                }
-            }
             delay(delayInterval.seconds)
-            this.removeChild(newView)
+            this.removeChild(nextView)
         }
     }
 

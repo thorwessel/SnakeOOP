@@ -2,8 +2,10 @@ package game
 
 import com.soywiz.korev.Key
 import com.soywiz.korev.KeyEvent
+import com.soywiz.korge.view.View
 import models.Position
 import food.Food
+import graphics.Graphics
 import models.Direction.*
 import models.GameObjects
 import models.GameObjects.*
@@ -14,6 +16,7 @@ class Game {
 
     private val movement = Movement()
     private val food = Food()
+    private val graphics = Graphics()
     private val snake1 = Snake()
     private val snake2 = Snake()
     private val allSnakes = listOf(snake1, snake2)
@@ -26,7 +29,7 @@ class Game {
         }
     }
 
-    fun next(): Map<GameObjects, List<Position>> {
+    fun next(): View {
         val foodLocation = food.position
 
         allSnakes.forEach {
@@ -46,13 +49,13 @@ class Game {
             }
         }
 
-        return mapOf(Player1 to snake1Positions, Player2 to snake2Positions, Food to listOf(foodLocation))
+        return graphics.getNextGraphics(snake1Positions, snake2Positions, foodLocation)
     }
 
     fun getScoreText(): String {
         val snake1Score = snake1.length - 2
         val snake2Score = snake2.length - 2
-        return "Green $snake1Score - $snake2Score Blue "
+        return "Green $snake1Score - $snake2Score Blue"
     }
 
     fun registerInput(keyEvent: KeyEvent) {
