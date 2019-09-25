@@ -29,7 +29,7 @@ class Game {
         }
     }
 
-    fun next(): View {
+    fun getView(): View {
         val foodLocation = food.position
 
         allSnakes.forEach {
