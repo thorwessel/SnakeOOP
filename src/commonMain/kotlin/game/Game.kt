@@ -14,9 +14,7 @@ class Game {
     private val movement = Movement()
     private val food = Food()
     private val graphics = Graphics()
-    private val snake1 = Snake()
-    private val snake2 = Snake()
-    private val allSnakes = listOf(snake1, snake2)
+    private val allSnakes = listOf(Snake(), Snake())
 
     fun start() {
         food.getNewFoodLocation()
@@ -29,17 +27,14 @@ class Game {
     fun getView(): View {
         val foodLocation = food.position
 
-        allSnakes.forEach {
-            if (it.checkSelfCollision()) it.resetInternalState()
-        }
-
-        val snake1Positions = snake1.getNextSnake()
-        val snake2Positions = snake2.getNextSnake()
         val snakePositions = allSnakes.map { it.getNextSnake() }
 
-        if (snake1.checkSnakeCollision(snake2Positions)) snake1.resetInternalState()
-        if (snake2.checkSnakeCollision(snake1Positions)) snake2.resetInternalState()
-
+        snakePositions.forEach { positions ->
+            allSnakes.forEach {
+                it.checkCollision(positions)
+                it.checkSelfCollision()
+            }
+        }
 
         allSnakes.forEach {
             if (it.checkFoodCollision(foodLocation)) {
@@ -48,25 +43,25 @@ class Game {
             }
         }
 
-        return graphics.getNextGraphics(snake1Positions, snake2Positions, foodLocation)
+        return graphics.getNextGraphics(snakePositions, foodLocation)
     }
 
     fun getScoreText(): String {
-        val snake1Score = snake1.length - 2
-        val snake2Score = snake2.length - 2
+        val snake1Score = allSnakes[0].length - 1
+        val snake2Score = allSnakes[1].length - 1
         return "Green $snake1Score - $snake2Score Blue"
     }
 
     fun registerInput(keyEvent: KeyEvent) {
         when {
-            keyEvent.key == Key.DOWN &&     (movement.checkForValidMove(snake1.getLastQueuedDirection(), Down))     -> snake1.addDirection(Down)
-            keyEvent.key == Key.UP &&       (movement.checkForValidMove(snake1.getLastQueuedDirection(), Up))       -> snake1.addDirection(Up)
-            keyEvent.key == Key.LEFT &&     (movement.checkForValidMove(snake1.getLastQueuedDirection(), Left))     -> snake1.addDirection(Left)
-            keyEvent.key == Key.RIGHT &&    (movement.checkForValidMove(snake1.getLastQueuedDirection(), Right))    -> snake1.addDirection(Right)
-            keyEvent.key == Key.S &&        (movement.checkForValidMove(snake2.getLastQueuedDirection(), Down))     -> snake2.addDirection(Down)
-            keyEvent.key == Key.W &&        (movement.checkForValidMove(snake2.getLastQueuedDirection(), Up))       -> snake2.addDirection(Up)
-            keyEvent.key == Key.A &&        (movement.checkForValidMove(snake2.getLastQueuedDirection(), Left))     -> snake2.addDirection(Left)
-            keyEvent.key == Key.D &&        (movement.checkForValidMove(snake2.getLastQueuedDirection(), Right))    -> snake2.addDirection(Right)
+            keyEvent.key == Key.DOWN &&     (movement.checkForValidMove(allSnakes[0].getLastQueuedDirection(), Down))     -> allSnakes[0].addDirection(Down)
+            keyEvent.key == Key.UP &&       (movement.checkForValidMove(allSnakes[0].getLastQueuedDirection(), Up))       -> allSnakes[0].addDirection(Up)
+            keyEvent.key == Key.LEFT &&     (movement.checkForValidMove(allSnakes[0].getLastQueuedDirection(), Left))     -> allSnakes[0].addDirection(Left)
+            keyEvent.key == Key.RIGHT &&    (movement.checkForValidMove(allSnakes[0].getLastQueuedDirection(), Right))    -> allSnakes[0].addDirection(Right)
+            keyEvent.key == Key.S &&        (movement.checkForValidMove(allSnakes[1].getLastQueuedDirection(), Down))     -> allSnakes[1].addDirection(Down)
+            keyEvent.key == Key.W &&        (movement.checkForValidMove(allSnakes[1].getLastQueuedDirection(), Up))       -> allSnakes[1].addDirection(Up)
+            keyEvent.key == Key.A &&        (movement.checkForValidMove(allSnakes[1].getLastQueuedDirection(), Left))     -> allSnakes[1].addDirection(Left)
+            keyEvent.key == Key.D &&        (movement.checkForValidMove(allSnakes[1].getLastQueuedDirection(), Right))    -> allSnakes[1].addDirection(Right)
         }
     }
 }

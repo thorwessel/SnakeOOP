@@ -12,16 +12,16 @@ class Graphics {
     // Scale used for pixelated graphics
     private val pixelScale = 32
 
-    fun getNextGraphics(snake1: List<Position>, snake2: List<Position>, food: Position): View {
+    fun getNextGraphics(snakesList: List<List<Position>>, food: Position): View {
         val newView = Container()
 
         newView.graphics {
-            snake1.map {
+            snakesList[0].map {
                 fill(Colors.DARKGREEN) {
                     rect(it.xPosition * pixelScale, it.yPosition * pixelScale, pixelScale, pixelScale)
                 }
             }
-            snake2.map {
+            snakesList[1].map {
                 fill(Colors.DARKBLUE) {
                     rect(it.xPosition * pixelScale, it.yPosition * pixelScale, pixelScale, pixelScale)
                 }

@@ -5,7 +5,6 @@ import models.Direction.*
 import models.Position
 
 class Snake {
-
     private var stateOfSnake: MutableList<Position> = mutableListOf()
 
     val length: Int
@@ -43,22 +42,22 @@ class Snake {
         return foodPosition == stateOfSnake[0]
     }
 
-    fun checkSnakeCollision(positions: List<Position>): Boolean {
-        positions.forEach {
-            if (it == stateOfSnake[0]) {
-                return true
+    fun checkCollision(positions: List<Position>): Boolean {
+        if (positions != stateOfSnake.toList()) {
+            positions.forEach {
+                if (it == stateOfSnake[0]) {
+                    resetInternalState()
+                    return true
+                }
             }
         }
         return false
     }
 
-    private fun checkCollision(vararg positions: Position): Boolean = positions.any {
-        it == stateOfSnake[0]
-    }
-
     fun checkSelfCollision(): Boolean {
         for (stateIterator in 1 until stateOfSnake.size) {
             if (stateOfSnake[stateIterator] == stateOfSnake[0]) {
+                resetInternalState()
                 return true
             }
         }
@@ -72,11 +71,6 @@ class Snake {
         updateLength()
 
         return stateOfSnake
-    }
-
-    fun grow() {
-        val nextPosition = nextStatePosition(stateOfSnake[0])
-        stateOfSnake.add(stateOfSnake[stateOfSnake.size - 1])
     }
 
     private fun nextStatePosition(currentState: Position): Position {
@@ -106,8 +100,6 @@ class Snake {
     }
 
      private fun updateLength() {
-        if (stateOfSnake.size > length) {
-            stateOfSnake.removeAt(stateOfSnake.size - 1)
-        }
+         stateOfSnake.removeAt(stateOfSnake.size - 1)
     }
 }
