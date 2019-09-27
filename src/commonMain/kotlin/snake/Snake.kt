@@ -8,7 +8,8 @@ class Snake {
 
     private var stateOfSnake: MutableList<Position> = mutableListOf()
 
-    var length: Int = 2
+    val length: Int
+        get() = stateOfSnake.size
 
     private val nextDirections: MutableList<Direction> = mutableListOf(values().toList().shuffled().first())
 
@@ -21,13 +22,16 @@ class Snake {
                 xPosition = (0..15).random(),
                 yPosition = (0..15).random()
             ))
-
-        length = 2
         return stateOfSnake
     }
 
     fun addDirection(inputDirection: Direction) {
         nextDirections.add(inputDirection)
+    }
+
+    fun addLength() {
+        val lastState = stateOfSnake.last()
+        stateOfSnake.add(lastState)
     }
 
     fun getLastQueuedDirection(): Direction {
@@ -48,6 +52,10 @@ class Snake {
         return false
     }
 
+    private fun checkCollision(vararg positions: Position): Boolean = positions.any {
+        it == stateOfSnake[0]
+    }
+
     fun checkSelfCollision(): Boolean {
         for (stateIterator in 1 until stateOfSnake.size) {
             if (stateOfSnake[stateIterator] == stateOfSnake[0]) {
@@ -64,6 +72,11 @@ class Snake {
         updateLength()
 
         return stateOfSnake
+    }
+
+    fun grow() {
+        val nextPosition = nextStatePosition(stateOfSnake[0])
+        stateOfSnake.add(stateOfSnake[stateOfSnake.size - 1])
     }
 
     private fun nextStatePosition(currentState: Position): Position {

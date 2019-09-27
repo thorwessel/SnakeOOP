@@ -3,12 +3,9 @@ package game
 import com.soywiz.korev.Key
 import com.soywiz.korev.KeyEvent
 import com.soywiz.korge.view.View
-import models.Position
 import food.Food
 import graphics.Graphics
 import models.Direction.*
-import models.GameObjects
-import models.GameObjects.*
 import movement.Movement
 import snake.Snake
 
@@ -38,14 +35,16 @@ class Game {
 
         val snake1Positions = snake1.getNextSnake()
         val snake2Positions = snake2.getNextSnake()
+        val snakePositions = allSnakes.map { it.getNextSnake() }
 
         if (snake1.checkSnakeCollision(snake2Positions)) snake1.resetInternalState()
         if (snake2.checkSnakeCollision(snake1Positions)) snake2.resetInternalState()
 
+
         allSnakes.forEach {
             if (it.checkFoodCollision(foodLocation)) {
                 food.getNewFoodLocation()
-                it.length += 1
+                it.addLength()
             }
         }
 

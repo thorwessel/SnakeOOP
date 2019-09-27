@@ -20,15 +20,7 @@ class FoodTest {
 
     @Test
     fun `check if positions returned is evenly distributed`() {
-        /* This test is just for fun, I wanted to try my luck at testing randomness. It turns out, that is rather
-        difficult, or at least require basic knowledge of math. Instead, I wanted to look into whether the positions
-        from the getNewFoodLocation() method actually was equally distributed. To do this, I make a list using another
-        random calculation, then add twice as many numbers from the getNewFoodLocation() method. Make a Map of the
-        integers to see how many of each was on the original list and then check whether each integer is within 10 %
-        of what a equal distribution of integers would be. Made sense, no? Good.
 
-        Comment for Jens, perhaps we could discus testing randomness, I would love to hear your take!
-         */
         val testFood = Food()
         val randomList = getRandomList(Random(69))
 
