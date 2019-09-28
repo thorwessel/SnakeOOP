@@ -7,10 +7,10 @@ class Movement {
     // Should I use make a polymorphic object instead?
     fun checkForValidMove(newDirection: Direction, lastQueuedDirection: Direction): Boolean {
         return when {
-            newDirection == Direction.up    && lastQueuedDirection == Direction.down   -> false
-            newDirection == Direction.left  && lastQueuedDirection == Direction.right  -> false
-            newDirection == Direction.down  && lastQueuedDirection == Direction.up     -> false
-            newDirection == Direction.right && lastQueuedDirection == Direction.left   -> false
+            newDirection == Direction.Up    && lastQueuedDirection == Direction.Down   -> false
+            newDirection == Direction.Left  && lastQueuedDirection == Direction.Right  -> false
+            newDirection == Direction.Down  && lastQueuedDirection == Direction.Up     -> false
+            newDirection == Direction.Right && lastQueuedDirection == Direction.Left   -> false
             // Avoid adding several inputs for same directions
             newDirection                ==     lastQueuedDirection                     -> false
 

@@ -2,7 +2,6 @@
 import com.soywiz.korio.lang.assert
 import models.Direction
 import models.Position
-import models.State
 
 import snake.Snake
 import kotlin.test.Test
@@ -142,28 +141,20 @@ class SnakeTest {
 
 
     @Test
-    fun `Check that snake collision is detected`() {
+    fun `Check that snake self-collision is detected`() {
         val snake = Snake()
         snake.resetInternalState()
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.checkFoodCollision(foodPosition = Position(8, 8))
-        snake.addDirection(Direction.left)
-        snake.addDirection(Direction.left)
-        snake.addDirection(Direction.up)
-        snake.addDirection(Direction.right)
-        snake.addDirection(Direction.down)
+        snake.length = 6
+        snake.addDirection(Direction.Left)
         snake.getNextSnake()
+        snake.addDirection(Direction.Up)
         snake.getNextSnake()
+        snake.addDirection(Direction.Right)
         snake.getNextSnake()
-        snake.getNextSnake()
+        snake.addDirection(Direction.Down)
         snake.getNextSnake()
 
-
-        assertEquals(true, snake.checkSnakeCollision(), "Snake did not collide")
+        assertEquals(true, snake.checkSelfCollision(), "Snake did not collide")
     }
 
     @Test
@@ -171,17 +162,9 @@ class SnakeTest {
         val snake = Snake()
         snake.resetInternalState()
 
-        /*
-       Initial state = State(
-           xPosition = 8,
-           yPosition = 8,
-           length = 1,
-           nextDirections = mutableListOf(Direction.left))
-        */
+        val snakePosition = snake.getNextSnake()
 
-        snake.getNextSnake()
-
-        assertEquals(true, snake.checkFoodCollision(Position(xPosition = 7, yPosition = 8)),
+        assertEquals(true, snake.checkFoodCollision(snakePosition[0]),
             "Food was not hit as expected!")
     }
 }
