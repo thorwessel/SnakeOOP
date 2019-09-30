@@ -99,7 +99,7 @@ class Snake {
         }
     }
 
-     private fun updateLength() {
-         stateOfSnake.removeAt(stateOfSnake.size - 1)
+    private fun updateLength() {
+        stateOfSnake.removeAt(stateOfSnake.size - 1)
     }
 }
